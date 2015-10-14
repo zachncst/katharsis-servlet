@@ -24,6 +24,7 @@ import io.katharsis.errorhandling.mapper.ExceptionMapperRegistryBuilder;
 import io.katharsis.jackson.JsonApiModuleBuilder;
 import io.katharsis.locator.JsonServiceLocator;
 import io.katharsis.resource.field.ResourceFieldNameTransformer;
+import io.katharsis.resource.include.IncludeFieldSetter;
 import io.katharsis.resource.information.ResourceInformationBuilder;
 import io.katharsis.resource.registry.ResourceRegistry;
 import io.katharsis.resource.registry.ResourceRegistryBuilder;
@@ -135,7 +136,8 @@ public class KatharsisInvokerBuilder {
         throws Exception {
 
         TypeParser typeParser = new TypeParser();
-        ControllerRegistryBuilder controllerRegistryBuilder = new ControllerRegistryBuilder(resourceRegistry, typeParser, objectMapper);
+        IncludeFieldSetter fieldSetter = new IncludeFieldSetter(resourceRegistry);
+        ControllerRegistryBuilder controllerRegistryBuilder = new ControllerRegistryBuilder(resourceRegistry, typeParser, objectMapper, fieldSetter);
         ControllerRegistry controllerRegistry = controllerRegistryBuilder.build();
 
         return new RequestDispatcher(controllerRegistry, exceptionMapperRegistry);
